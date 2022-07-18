@@ -17,7 +17,6 @@ namespace ASPNet_CoreAPI_Blog.Controllers
     {
         private readonly BlogContext _context;
         private BlogRepository _repository;
-        private List<string> listposition = new List<string>() { "Viet Nam", "Chau A", "Chau Au", "Chau My"};
 
         public BlogsController(BlogContext context)
         {
@@ -33,18 +32,6 @@ namespace ASPNet_CoreAPI_Blog.Controllers
           {
               return NotFound();
           }
-            /*return await _context.Blogs.ToListAsync();*/
-            /*var blogs =  from blog in _context.Blogs select new{
-                blog.Id,
-                blog.title,
-                blog.description,
-                blog.detail,
-                blog.thumb,
-                blog.datePublic,
-                blog.status,
-                blog.category,
-                blog.Positions
-            };*/
             IEnumerable<Blog> blogs = (IEnumerable<Blog>)_repository.GetAllBlogs();
             return blogs.ToList();
         }
@@ -57,26 +44,6 @@ namespace ASPNet_CoreAPI_Blog.Controllers
           {
               return NotFound();
           }
-            /*var blog = await _context.Blogs.Where(x => x.Id == id)
-                         .Include(x => x.category).Include(x=>x.Positions)
-                         .FirstOrDefaultAsync();*/
-            /*            var test = from blog in _context.Blogs where blog.Id == id select new
-                        {
-                            blog.Id,
-                            blog.title,
-                            blog.description,
-                            blog.detail,
-                            blog.thumb,
-                            blog.datePublic,
-                            blog.status,
-                            blog.CategoryId,
-                            blog.category,
-                            blog.Positions
-                        } ;
-                        if (test == null)
-                        {
-                            return NotFound();
-                        }*/
             Blog blog = (Blog)_repository.GetBlogById(id);
             if(blog == null)
             {
@@ -90,51 +57,10 @@ namespace ASPNet_CoreAPI_Blog.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBlog(int id, BlogDTO blogDTO,string listpos)
         {
-            List<int> list = listpos.Split(',').Select(Int32.Parse).ToList();
             if (id != blogDTO.Id)
             {
                 return BadRequest();
             }
-            /*Blog blog = new Blog()
-            {
-                Id = blogDTO.Id,
-                title = blogDTO.title,
-                description = blogDTO.description,
-                detail = blogDTO.detail,
-                thumb = blogDTO.thumb,
-                datePublic = blogDTO.datePublic,
-                status = blogDTO.status,
-                CategoryId = blogDTO.CategoryId,
-                category = _context.Categories.Find(blogDTO.CategoryId),
-                Positions = null,
-            };
-            _context.Entry(blog).State = EntityState.Modified;
-            _context.Positions.RemoveRange(_context.Positions.Where(x => x.BlogId == id).ToList());
-            foreach (var item in list)
-            {
-                Position position = new Position()
-                {
-                    Id = 0,
-                    Name = listposition[item - 1].ToString(),
-                    BlogId = blog.Id
-                };
-                _context.Positions.Add(position);
-            }
-            try
-            {
-                _context.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!BlogExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }*/
             Blog blog = (Blog)_repository.EditBlogById(id, blogDTO, listpos);
             if(blog ==null)
             {
@@ -153,33 +79,6 @@ namespace ASPNet_CoreAPI_Blog.Controllers
           {
               return Problem("Entity set 'BlogContext.Blogs'  is null.");
           }
-            /*Blog blog = new Blog()
-            {
-                Id= 0,
-                title=blogDTO.title,
-                description=blogDTO.description,
-                detail=blogDTO.detail,
-                thumb=blogDTO.thumb,
-                datePublic=blogDTO.datePublic,
-                status=blogDTO.status,
-                CategoryId=blogDTO.CategoryId,
-                category=_context.Categories.Find(blogDTO.CategoryId),
-                Positions=null,
-            };
-            _context.Blogs.Add(blog);
-            _context.SaveChanges();
-            var idblog = blog.Id;
-            foreach (var id in list)
-            {
-                Position position=new Position()
-                {
-                    Id = 0,
-                    Name = listposition[id - 1].ToString(),
-                    BlogId = blog.Id
-                };
-                _context.Positions.Add(position) ;
-            }
-            _context.SaveChanges();*/
             Blog blog = (Blog)_repository.CreateBlog(blogDTO, listpos);
 
             return CreatedAtAction("GetBlog", new { id = blog.Id }, blog);
@@ -204,9 +103,6 @@ namespace ASPNet_CoreAPI_Blog.Controllers
                 return NotFound();
             }
             return Accepted("deleted!");
-/*            _context.Positions.RemoveRange(_context.Positions.Where(x => x.BlogId == blog.Id).ToList());
-            _context.Blogs.Remove(blog);
-            await _context.SaveChangesAsync();*/
 
         }
 
