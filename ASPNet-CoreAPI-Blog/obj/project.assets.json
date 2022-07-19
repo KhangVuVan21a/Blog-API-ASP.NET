@@ -9680,6 +9680,7 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "Microsoft.EntityFrameworkCore >= 6.0.7",
       "Microsoft.EntityFrameworkCore.InMemory >= 6.0.7",
       "Microsoft.EntityFrameworkCore.SqlServer >= 6.0.7",
       "Microsoft.EntityFrameworkCore.Tools >= 6.0.7",
@@ -9688,19 +9689,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\KHANG\\.nuget\\packages\\": {}
+    "C:\\Users\\VanPhong\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\KHANG\\source\\repos\\ASPNet-CoreAPI-Blog\\ASPNet-CoreAPI-Blog\\ASPNet-CoreAPI-Blog.csproj",
+      "projectUniqueName": "D:\\test\\Blog-API-ASP.NET\\ASPNet-CoreAPI-Blog\\ASPNet-CoreAPI-Blog.csproj",
       "projectName": "ASPNet-CoreAPI-Blog",
-      "projectPath": "C:\\Users\\KHANG\\source\\repos\\ASPNet-CoreAPI-Blog\\ASPNet-CoreAPI-Blog\\ASPNet-CoreAPI-Blog.csproj",
-      "packagesPath": "C:\\Users\\KHANG\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\KHANG\\source\\repos\\ASPNet-CoreAPI-Blog\\ASPNet-CoreAPI-Blog\\obj\\",
+      "projectPath": "D:\\test\\Blog-API-ASP.NET\\ASPNet-CoreAPI-Blog\\ASPNet-CoreAPI-Blog.csproj",
+      "packagesPath": "C:\\Users\\VanPhong\\.nuget\\packages\\",
+      "outputPath": "D:\\test\\Blog-API-ASP.NET\\ASPNet-CoreAPI-Blog\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\KHANG\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\VanPhong\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -9726,6 +9727,10 @@
       "net6.0": {
         "targetAlias": "net6.0",
         "dependencies": {
+          "Microsoft.EntityFrameworkCore": {
+            "target": "Package",
+            "version": "[6.0.7, )"
+          },
           "Microsoft.EntityFrameworkCore.InMemory": {
             "target": "Package",
             "version": "[6.0.7, )"

@@ -10,5 +10,6 @@
         public DateTime datePublic { get; set; }
         public bool status { get; set; }
         public int CategoryId { get; set; }
+        public string listposition { get; set; }
     }
 }

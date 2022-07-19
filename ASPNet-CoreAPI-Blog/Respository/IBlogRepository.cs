@@ -6,8 +6,8 @@ namespace ASPNet_CoreAPI_Blog.Respository
     {
         IEnumerable<Object> GetAllBlogs();
         Object GetBlogById(int id);
-        Object CreateBlog(BlogDTO blogDTO, string listpos);
-        Object EditBlogById(int id, BlogDTO blogDTO,string listpos);
+        Object CreateBlog(BlogDTO blogDTO);
+        Object EditBlogById(int id, BlogDTO blogDTO);
         Object DeleteBlogById(int id);
         void Save();
 

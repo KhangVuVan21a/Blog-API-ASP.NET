@@ -13,7 +13,7 @@ builder.Services.AddDbContext<CategoryContext>(opt =>
 builder.Services.AddDbContext<PositionContext>(opt =>
     opt.UseInMemoryDatabase("BlogList"));*/
 builder.Services.AddDbContext<BlogContext>(opt =>
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("BlogAPI")));
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("BlogAPIVP")));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

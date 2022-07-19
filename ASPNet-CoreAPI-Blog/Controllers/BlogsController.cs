@@ -17,10 +17,12 @@ namespace ASPNet_CoreAPI_Blog.Controllers
     {
         private readonly BlogContext _context;
         private BlogRepository _repository;
+        private IBlogRepository blogRepository;
 
         public BlogsController(BlogContext context)
         {
             _repository = new BlogRepository(context);
+            blogRepository = new BlogRepository(context);
             _context = context;
         }
 
@@ -44,7 +46,18 @@ namespace ASPNet_CoreAPI_Blog.Controllers
           {
               return NotFound();
           }
+
             Blog blog = (Blog)_repository.GetBlogById(id);
+/*            Blog blog1 = (Blog)blogRepository.DeleteBlogById(id);*/
+            
+            /*var test = new
+            { 
+                id = blog.Id,
+                title = blog.title,
+                detail = blog.detail,
+                pos = blog.Positions,
+                check = "asdasd"
+            };*/
             if(blog == null)
             {
                 return NotFound();
@@ -55,13 +68,13 @@ namespace ASPNet_CoreAPI_Blog.Controllers
         // PUT: api/Blogs/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBlog(int id, BlogDTO blogDTO,string listpos)
+        public async Task<IActionResult> PutBlog(int id, BlogDTO blogDTO)
         {
             if (id != blogDTO.Id)
             {
                 return BadRequest();
             }
-            Blog blog = (Blog)_repository.EditBlogById(id, blogDTO, listpos);
+            Blog blog = (Blog)_repository.EditBlogById(id, blogDTO);
             if(blog ==null)
             {
                 return NotFound();
@@ -72,14 +85,13 @@ namespace ASPNet_CoreAPI_Blog.Controllers
         // POST: api/Blogs
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Blog>> PostBlog(BlogDTO blogDTO, string listpos)
+        public async Task<ActionResult<Blog>> PostBlog(BlogDTO blogDTO)
         {
-           List<int> list = listpos.Split(',').Select(Int32.Parse).ToList();
           if (_context.Blogs == null)
           {
               return Problem("Entity set 'BlogContext.Blogs'  is null.");
           }
-            Blog blog = (Blog)_repository.CreateBlog(blogDTO, listpos);
+            Blog blog = (Blog)_repository.CreateBlog(blogDTO);
 
             return CreatedAtAction("GetBlog", new { id = blog.Id }, blog);
         }

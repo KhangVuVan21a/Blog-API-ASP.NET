@@ -12,12 +12,11 @@ namespace ASPNet_CoreAPI_Blog.Respository
         {
             _context = context;
         }
-        //Create blog 
-        //BlogDTO + string position   (ex : blogDTO{...} + "1,2,3"
-        //return Blog
-        public object CreateBlog(BlogDTO blogDTO, string listpos)
+        //CreateBlog called Blogcontroller PostPosition() / CreateBlog(blogDto)
+        //return blogcreated
+        public object CreateBlog(BlogDTO blogDTO)
         {
-            List<int> list = listpos.Split(',').Select(Int32.Parse).ToList();
+            List<int> listposition = blogDTO.listposition.Split(',').Select(Int32.Parse).ToList();
             Blog blog = new Blog()
             {
                 Id = 0,
@@ -33,21 +32,26 @@ namespace ASPNet_CoreAPI_Blog.Respository
             };
             _context.Blogs.Add(blog);
             _context.SaveChanges();
-            foreach (var id in list)
+            foreach (var id in listposition)
             {
-                Position position = new Position()
+                if (id < LISTPOS.Count)
                 {
-                    Id = 0,
-                    Name = LISTPOS[id - 1].ToString(),
-                    BlogId = blog.Id
-                };
-                _context.Positions.Add(position);
+                    Position position = new Position()
+                    {
+                        Id = 0,
+                        Name = LISTPOS[id - 1].ToString(),
+                        BlogId = blog.Id
+                    };
+                    _context.Positions.Add(position);
+                }
             }
             _context.SaveChanges();
             return blog;
         }
-        //Delete blog by id 
-        // return blog deleted 
+
+
+        //Delete blog called Blogcontroller DeleteBlog(id)
+        //return blog
         public object DeleteBlogById(int id)
         {
             Blog blog = _context.Blogs.Find(id);
@@ -65,12 +69,11 @@ namespace ASPNet_CoreAPI_Blog.Respository
         {
             throw new NotImplementedException();
         }
-        //Edit blog by id 
-        //params id +BlogDTO + String listpos 
-        //return Blog
-        public object EditBlogById(int id, BlogDTO blogDTO,string listpos)
+        //Edit blog called Blogcontroller PutBlog(id,blogDTO)
+        //return blog
+        public object EditBlogById(int id, BlogDTO blogDTO)
         {
-            List<int> list = listpos.Split(',').Select(Int32.Parse).ToList();
+            List<int> listposition = blogDTO.listposition.Split(',').Select(Int32.Parse).ToList();
             if (id != blogDTO.Id)
             {
                 return null;
@@ -90,7 +93,7 @@ namespace ASPNet_CoreAPI_Blog.Respository
             };
             _context.Entry(blog).State = EntityState.Modified;
             _context.Positions.RemoveRange(_context.Positions.Where(x => x.BlogId == id).ToList());
-            foreach (var item in list)
+            foreach (var item in listposition)
             {
                 Position position = new Position()
                 {
@@ -118,8 +121,8 @@ namespace ASPNet_CoreAPI_Blog.Respository
             return blog;
 
         }
-        //Getallblog
-        //return list<Object>
+        //Get all blog called Blogcontroller GetBlog()
+        //return list blog
         public IEnumerable<object> GetAllBlogs()
         {
             if (_context.Blogs == null)
@@ -128,9 +131,8 @@ namespace ASPNet_CoreAPI_Blog.Respository
             }
             return _context.Blogs.Include(x=>x.category).Include(x=>x.Positions).ToList();
         }
-        //get blog by id 
-        // params: id
-        // return fisrt blog equal by id 
+        //Get blog by id called Blogcontroller GetBlog(id)
+        //return blog
         public object GetBlogById(int id)
         {
             if (_context.Blogs == null)
